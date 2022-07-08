@@ -1,42 +1,32 @@
 package CoderCaesar;
 
-import java.nio.file.Path;
-
 public class CaesarCipher {
-    private static String alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+|[];',./{}:\"\\<>?!№ ";
+    private static final String ALPHABET_PART_ONE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
+                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":-!? +-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789";
+    private static final String ALPHABET_PART_TWO = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
+                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":-!? +-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789";
+    private static final String alphabet = ALPHABET_PART_ONE + ALPHABET_PART_TWO;
 
     public String encrypt(String massage, int key) {
         StringBuilder result = new StringBuilder();
         for (char symbol : massage.toCharArray()) {
             int originalPosition = alphabet.indexOf(symbol);
+            int newPosition;
             char newSymbol = 0;
             if (originalPosition >= 0) {
-                int newPosition = originalPosition + key;
-                if (newPosition > (alphabet.length() - 1)) {
-                    newPosition = newPosition - alphabet.length();
-                    newSymbol = alphabet.charAt(newPosition);
-                } else if (newPosition < 0) {
-                    newPosition = alphabet.length() + newPosition;
-                    newSymbol = alphabet.charAt(newPosition);
+                if (key >= 0) {
+                    newPosition = (originalPosition + key) % (alphabet.length() / 2);
                 } else {
-                    newSymbol = alphabet.charAt(newPosition);
+                    int newKey = key % (alphabet.length() / 2);
+                    newPosition = (originalPosition + (alphabet.length() / 2)  + newKey) % alphabet.length();
                 }
+                newSymbol = alphabet.charAt(newPosition);
             }
             result.append(newSymbol);
         }
-
         return result.toString();
     }
     public String deEncrypt(String massage, int key) {
         return encrypt(massage, -1 * key);
-    }
-
-    public static void main(String[] args) {
-        CaesarCipher caesarCipher = new CaesarCipher();
-        String encrypt = caesarCipher.encrypt("русский алфавит прописные буквы строка", 161);
-        System.out.println(encrypt);
-        String deEncrypt = caesarCipher.deEncrypt(encrypt, 161);
-        System.out.println(deEncrypt);
-        System.out.println(alphabet.length());
     }
 }
