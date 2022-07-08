@@ -1,23 +1,31 @@
 package CoderCaesar;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
 public class Coder {
-    private static int keyCoder;
 
-
-    public static void setKeyCoder(int number) {
-        keyCoder = number;
+    public void coding () {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите путь к файлу для его зашифровки");
+        String pathNotEncryptedFile = scanner.nextLine();
+        System.out.println("Введите ключ шифрования");
+        int key = scanner.nextInt();
+        System.out.println("Введите путь к файлу с зашифрованным текстом");
+        String pathEncryptedFile = scanner.nextLine();
+        CaesarCipher caesarCipher = new CaesarCipher();
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(pathNotEncryptedFile));
+             BufferedWriter writer = Files.newBufferedWriter(Path.of(pathEncryptedFile))) {
+            while (reader.ready()) {
+                String string = reader.readLine();
+                String encryptString = caesarCipher.encrypt(string, key);
+                writer.write(encryptString + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Содержимое файла зашифровано");
     }
-    public static int getKeyCoder() {
-        return keyCoder;
-    }
-
-    public static void code (Path pathFile) {
-
-    }
-    public static void decode (Path pathFile) {
-
-    }
-
 }
