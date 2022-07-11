@@ -12,7 +12,7 @@ public class Decoder {
         System.out.println("Введите путь к файлу для его расшифровки");
         String pathEncryptedFile = scanner.nextLine();
         System.out.println("Введите ключ дешифрования");
-        int key = scanner.nextInt();
+        int key = Integer.parseInt(scanner.nextLine());
         System.out.println("Введите путь к файлу с дешифрованным текстом");
         String pathNotEncryptedFile = scanner.nextLine();
         CaesarCipher caesarCipher = new CaesarCipher();
