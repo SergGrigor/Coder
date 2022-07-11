@@ -12,7 +12,7 @@ public class Coder {
         System.out.println("Введите путь к файлу для его зашифровки");
         String pathNotEncryptedFile = scanner.nextLine();
         System.out.println("Введите ключ шифрования");
-        int key = scanner.nextInt();
+        int key = Integer.parseInt(scanner.nextLine());
         System.out.println("Введите путь к файлу с зашифрованным текстом");
         String pathEncryptedFile = scanner.nextLine();
         CaesarCipher caesarCipher = new CaesarCipher();
