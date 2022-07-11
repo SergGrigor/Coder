@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Random;
 import java.util.Scanner;
 
 public class BrutalForce {
@@ -25,6 +26,11 @@ public class BrutalForce {
             }
             for (int i = 0; i < caesarCipher.alphabetLength(); i++) {
                 String deEncrypt = caesarCipher.deEncrypt(stringBuilder.toString(), i);
+                if (isValidateText(deEncrypt)) {
+                    writer.write(deEncrypt);
+                    System.out.println("Текст расшифрован. Ключ = " + i);
+                    break;
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -34,7 +40,31 @@ public class BrutalForce {
 
     private boolean isValidateText (String text) {
         boolean isValidate = false;
-        text.split(" ");
+        int indexStart = new Random().nextInt(text.length() / 2);
+        int indexEnd = indexStart + (int) Math.sqrt(text.length());
+        String substring = text.substring(indexStart, indexEnd);
+        String[] words = substring.split(" ");
+        for (String word: words) {
+            if (word.length() > 24) {
+                return false;
+            }
+        }
+        if (substring.contains(".") || substring.contains(",") || substring.contains("! ") || substring.contains("? ")) {
+            isValidate = true;
+        }
+        while (isValidate) {
+            System.out.println(substring);
+            System.out.println("Текст корректно расшифрован? Да/Нет");
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.nextLine();
+            if (answer.equalsIgnoreCase("да")) {
+                return true;
+            } else if (answer.equalsIgnoreCase("нет")) {
+                isValidate = false;
+            } else {
+                System.out.println("Некорректный выбор. Выберите толко да или нет");
+            }
+        }
         return isValidate;
     }
 }
