@@ -19,10 +19,10 @@ public class CaesarCipher {
             char newSymbol = 0;
             if (originalPosition >= 0) {
                 if (key >= 0) {
-                    newPosition = (originalPosition + key) % (ALPHABET.length() / 2);
+                    newPosition = (originalPosition + key) % (alphabetLength());
                 } else {
                     int newKey = key % (ALPHABET.length() / 2);
-                    newPosition = (originalPosition + (ALPHABET.length() / 2)  + newKey) % ALPHABET.length();
+                    newPosition = (originalPosition + (alphabetLength())  + newKey) % ALPHABET.length();
                 }
                 newSymbol = ALPHABET.charAt(newPosition);
             }
