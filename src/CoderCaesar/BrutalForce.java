@@ -49,7 +49,7 @@ public class BrutalForce {
                 return false;
             }
         }
-        if (substring.contains(".") || substring.contains(",") || substring.contains("! ") || substring.contains("? ")) {
+        if (substring.contains(". ") || substring.contains(", ") || substring.contains("! ") || substring.contains("? ")) {
             isValidate = true;
         }
         while (isValidate) {
@@ -62,7 +62,7 @@ public class BrutalForce {
             } else if (answer.equalsIgnoreCase("нет")) {
                 isValidate = false;
             } else {
-                System.out.println("Некорректный выбор. Выберите толко да или нет");
+                System.out.println("Некорректный выбор. Выберите только да или нет");
             }
         }
         return isValidate;
