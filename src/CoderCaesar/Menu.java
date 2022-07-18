@@ -7,7 +7,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Выберите режим работы: \n" +
-                    "1 - зашивровать\n" +
+                    "1 - зашифровать\n" +
                     "2 - расшифровать\n" +
                     "3 - применить метод перебора ключей\n" +
                     "4 - применить метод синтаксического анализа\n" +

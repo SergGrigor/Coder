@@ -15,24 +15,27 @@ public class StatAnalyzer {
         String statFile = scanner.nextLine();
         System.out.println("Введите путь файла с расшифрованным текстом");
         String notEncryptedFile = scanner.nextLine();
-        Map<Character, Integer> encrypted = new HashMap<>();
-        Map<Character, Integer> statistic = new HashMap<>();
-        Map<Character, Character> deEncrypted = new HashMap<>();
-        List<Map.Entry<Character, Integer>> encryptedList = mapToList(fillMapValues(encryptedFile, encrypted));
-        List<Map.Entry<Character, Integer>> statList = mapToList(fillMapValues(statFile, statistic));
-        if (statList.size() > encryptedList.size()) {
-            for (int i = 0; i < encryptedList.size(); i++) {
-                deEncrypted.put(encryptedList.get(i).getKey(), statList.get(i).getKey());
+        Map<Character, Integer> mapEncrypted = new HashMap<>();
+        Map<Character, Integer> mapStatistic = new HashMap<>();
+        Map<Character, Character> mapDeEncrypted = new HashMap<>();
+        List<Map.Entry<Character, Integer>> listEncrypted = mapToList(fillMapValues(encryptedFile, mapEncrypted));
+        List<Map.Entry<Character, Integer>> listStat = mapToList(fillMapValues(statFile, mapStatistic));
+        if (listStat.size() > listEncrypted.size()) {
+            for (int i = 0; i < listEncrypted.size(); i++) {
+                mapDeEncrypted.put(listEncrypted.get(i).getKey(), listStat.get(i).getKey());
             }
             try(BufferedReader bufferedReader = Files.newBufferedReader(Path.of(encryptedFile));
                 BufferedWriter bufferedWriter = Files.newBufferedWriter(Path.of(notEncryptedFile))) {
                 while (bufferedReader.ready()) {
                     String string = bufferedReader.readLine();
+
                     char[] chars = string.toCharArray();
                     for (int i = 0; i < chars.length; i++) {
-                        char deEncryptedChar = deEncrypted.get(chars[i]);
+                        char deEncryptedChar = mapDeEncrypted.get(chars[i]);
                         bufferedWriter.write(deEncryptedChar);
                     }
+
+
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

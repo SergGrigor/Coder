@@ -2,9 +2,9 @@ package CoderCaesar;
 
 public class CaesarCipher {
     private static final String ALPHABET_PART_ONE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
-                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":!? –+-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789";
+                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":!? –+-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789\u00A0\u2026";
     private static final String ALPHABET_PART_TWO = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZабвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
-                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":!? –+-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789";
+                                                    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":!? –+-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789\u00A0\u2026";
     private static final String ALPHABET = ALPHABET_PART_ONE + ALPHABET_PART_TWO;
 
     public int alphabetLength () {
@@ -22,7 +22,7 @@ public class CaesarCipher {
                     newPosition = (originalPosition + key) % (alphabetLength());
                 } else {
                     int newKey = key % (ALPHABET.length() / 2);
-                    newPosition = (originalPosition + (alphabetLength())  + newKey) % ALPHABET.length();
+                    newPosition = (originalPosition + (alphabetLength()) + newKey) % ALPHABET.length();
                 }
                 newSymbol = ALPHABET.charAt(newPosition);
             }
