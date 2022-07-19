@@ -7,8 +7,12 @@ public class CaesarCipher {
                                                     "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ.,\":!? –+-*/\\@#$%^&(){}[];'|`~=_©«»—0123456789\u00A0\u2026";
     private static final String ALPHABET = ALPHABET_PART_ONE + ALPHABET_PART_TWO;
 
-    public int alphabetLength () {
+    public int alphabetLength() {
         return ALPHABET.length() / 2;
+    }
+
+    public String getALPHABET() {
+        return ALPHABET;
     }
 
     public String encrypt(String massage, int key) {

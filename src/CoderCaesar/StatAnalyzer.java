@@ -15,6 +15,7 @@ public class StatAnalyzer {
         String statFile = scanner.nextLine();
         System.out.println("Введите путь файла с расшифрованным текстом");
         String notEncryptedFile = scanner.nextLine();
+        CaesarCipher caesarCipher = new CaesarCipher();
         Map<Character, Integer> mapEncrypted = new HashMap<>();
         Map<Character, Integer> mapStatistic = new HashMap<>();
         Map<Character, Character> mapDeEncrypted = new HashMap<>();
@@ -26,16 +27,18 @@ public class StatAnalyzer {
             }
             try(BufferedReader bufferedReader = Files.newBufferedReader(Path.of(encryptedFile));
                 BufferedWriter bufferedWriter = Files.newBufferedWriter(Path.of(notEncryptedFile))) {
+                int cipherKey = caesarCipher.getALPHABET().indexOf(listEncrypted.get(0).getKey()) -
+                                caesarCipher.getALPHABET().indexOf(listStat.get(0).getKey());
                 while (bufferedReader.ready()) {
+                    /*
                     String string = bufferedReader.readLine();
-
                     char[] chars = string.toCharArray();
                     for (int i = 0; i < chars.length; i++) {
                         char deEncryptedChar = mapDeEncrypted.get(chars[i]);
                         bufferedWriter.write(deEncryptedChar);
                     }
-
-
+                     */
+                    bufferedWriter.write(caesarCipher.deEncrypt(bufferedReader.readLine(), cipherKey) + System.lineSeparator());
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
