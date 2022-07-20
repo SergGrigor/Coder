@@ -1,9 +1,14 @@
 package CoderCaesar;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 public class BrutalForce {
 
@@ -14,21 +19,19 @@ public class BrutalForce {
         System.out.println("Введите путь для расшифрованного файла");
         String pathNotEncryptedFile = scanner.nextLine();
         CaesarCipher caesarCipher = new CaesarCipher();
-        try (//var reader = Files.newBufferedReader(Path.of(pathEncryptedFile));
+        try (var reader = Files.newBufferedReader(Path.of(pathEncryptedFile));
              var writer = Files.newBufferedWriter(Path.of(pathNotEncryptedFile))) {
-            List<String> stringList = Files.readAllLines(Path.of(pathEncryptedFile));
-            /*
-            //StringBuilder stringBuilder = new StringBuilder();
-
+            StringBuilder stringBuilder = new StringBuilder();
+            List<String> listStrings = new ArrayList<>();
             while (reader.ready()) {
                 String string = reader.readLine();
-                stringArrayList.add(string); //stringBuilder.append(string);
+                stringBuilder.append(string);
+                listStrings.add(string);
             }
-            */
             for (int i = 0; i < caesarCipher.alphabetLength(); i++) {
-                String deEncrypt = caesarCipher.deEncrypt(stringList.toString(), i);//(stringBuilder.toString(), i);
+                String deEncrypt = caesarCipher.deEncrypt(stringBuilder.toString(), i);
                 if (isValidateText(deEncrypt)) {
-                    for (String string: stringList) {
+                    for (String string: listStrings) {
                         writer.write(caesarCipher.deEncrypt(string, i) + System.lineSeparator());
                     }
                     System.out.println("Текст расшифрован. Ключ = " + i);
@@ -43,50 +46,31 @@ public class BrutalForce {
 
     private boolean isValidateText (String text) {
         boolean isValidate = false;
-        if (text.length() > 26) {
-            String string = text;
-            int indexStart = new Random().nextInt(text.length() / 2);
-            int indexEnd = indexStart + (int) Math.sqrt(text.length());
-            if ((indexStart - indexEnd) > 26) {
-                string = text.substring(indexStart, indexEnd);
+        int indexStart = new Random().nextInt(text.length() / 2);
+        int indexEnd = indexStart + (int) Math.sqrt(text.length());
+        String substring = text.substring(indexStart, indexEnd);
+        String[] words = substring.split(" ");
+        for (String word: words) {
+            if (word.length() > 24) {
+                return false;
             }
-            if (isWord(string) && (string.contains(". ")
-                    || string.contains(", ")
-                    || string.contains("! ")
-                    || string.contains("? "))) {
-                isValidate = answerValidate(string);
-            }
-
-        } else if (isWord(text)) {
-                isValidate = answerValidate(text);
         }
-        return isValidate;
-    }
-
-    private boolean answerValidate(String text) {
-        while (true) {
-            System.out.println(text);
+        if (substring.contains(". ") || substring.contains(", ") || substring.contains("! ") || substring.contains("? ")) {
+            isValidate = true;
+        }
+        while (isValidate) {
+            System.out.println(substring);
             System.out.println("Текст корректно расшифрован? Да/Нет");
             Scanner scanner = new Scanner(System.in);
             String answer = scanner.nextLine();
             if (answer.equalsIgnoreCase("да")) {
                 return true;
             } else if (answer.equalsIgnoreCase("нет")) {
-                break;
+                isValidate = false;
             } else {
                 System.out.println("Некорректный выбор. Выберите только да или нет");
             }
         }
-        return false;
-    }
-
-    private  boolean isWord(String text) {
-        String[] words = text.split(" ");
-        for (String word : words) {
-            if (word.length() > 24) {
-                return false;
-            }
-        }
-        return true;
+        return isValidate;
     }
 }
