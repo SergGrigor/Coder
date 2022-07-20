@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,16 +21,17 @@ public class BrutalForce {
         CaesarCipher caesarCipher = new CaesarCipher();
         try (var reader = Files.newBufferedReader(Path.of(pathEncryptedFile));
              var writer = Files.newBufferedWriter(Path.of(pathNotEncryptedFile))) {
-            //StringBuilder stringBuilder = new StringBuilder();
-            ArrayList<String> stringArrayList = new ArrayList<>();
+            StringBuilder stringBuilder = new StringBuilder();
+            List<String> listStrings = new ArrayList<>();
             while (reader.ready()) {
                 String string = reader.readLine();
-                stringArrayList.add(string); //stringBuilder.append(string);
+                stringBuilder.append(string);
+                listStrings.add(string);
             }
             for (int i = 0; i < caesarCipher.alphabetLength(); i++) {
-                String deEncrypt = caesarCipher.deEncrypt(stringArrayList.toString(), i);//(stringBuilder.toString(), i);
+                String deEncrypt = caesarCipher.deEncrypt(stringBuilder.toString(), i);
                 if (isValidateText(deEncrypt)) {
-                    for (String string: stringArrayList) {
+                    for (String string: listStrings) {
                         writer.write(caesarCipher.deEncrypt(string, i) + System.lineSeparator());
                     }
                     System.out.println("Текст расшифрован. Ключ = " + i);
